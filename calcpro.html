@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CalcPro</title>
+</head>
+<style>
+body {
+	font-family: sans-serif;
+}
+</style>
+<body>
+	<textarea id="area" rows=30 cols=100 placeholder="Type any equation, hit enter to calculate."></textarea>
+	<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math">Math Reference</a></p>
+	<p>All Math functions are globals.</p>
+	<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators">Operators Reference</a></p>
+	<p><a href="https://github.com/mochawoof/calcpro">GitHub</a></p>
+</body>
+<script>
+
+Object.getOwnPropertyNames(Math).forEach((e) => {
+	window[e] = Math[e];
+});
+
+let area = document.getElementById("area");
+
+area.oninput = (e) => {
+	if (e.inputType == "insertLineBreak") {
+		if (area.selectionStart == area.value.length) {
+			let split = area.value.split("\n");
+			let line = split[split.length - 2];
+			
+			try {
+				split[split.length - 2] = eval(line);
+			} catch {
+				split[split.length - 2] = "Syntax Error";
+			}
+			
+			area.value = "";
+			for (let i = 0; i < split.length; i++) {
+				area.value += split[i] + ((i < split.length - 1) ? "\n" : "");
+			}
+		}
+	}
+}
+</script>
+</html>
