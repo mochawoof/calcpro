@@ -14,6 +14,7 @@ body {
 	<p>All Math functions are globals.</p>
 	<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators">Operators Reference</a></p>
 	<p><a href="https://github.com/mochawoof/calcpro">GitHub</a></p>
+	<p>v1.1</p>
 </body>
 <script>
 "use strict";
@@ -26,19 +27,23 @@ let area = document.getElementById("area");
 
 area.oninput = (e) => {
 	if (e.inputType == "insertLineBreak") {
+		let split = area.value.split("\n");
 		if (area.selectionStart == area.value.length) {
 			let split = area.value.split("\n");
 			let line = split[split.length - 2];
 			
-			try {
-				split[split.length - 2] = eval(line);
-			} catch {
-				split[split.length - 2] = "Syntax Error";
-			}
-			
-			area.value = "";
-			for (let i = 0; i < split.length; i++) {
-				area.value += split[i] + ((i < split.length - 1) ? "\n" : "");
+			if (line.trim() != "") {
+				try {
+					split[split.length - 1] = eval(line);
+				} catch {
+					split[split.length - 1] = "Syntax Error";
+				}
+				split[split.length] = "";
+				
+				area.value = "";
+				for (let i = 0; i < split.length; i++) {
+					area.value += split[i] + ((i < split.length - 1) ? "\n" : "");
+				}
 			}
 		}
 	}
